@@ -1,15 +1,12 @@
  
 package aplicaciónmp3;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.RandomAccessFile;
 /**
  *
  * @author ferna
  */
-public class LectorArchivos {
-    Pila canciones = new Pila();
+public class LectorCanciones {
+    private Pila canciones = new Pila();
     public void listFile(String pathname) {
         File f = new File(pathname);
         File[] listfiles = f.listFiles();
@@ -35,9 +32,10 @@ public class LectorArchivos {
                     canciones.insertar(files);
                 }
 //                System.out.println(listfiles[i]);
-            }
-
+            }    
         }
-        canciones.mostrar();
     } 
+    public Pila getCanciones() {
+        return canciones;
+    }
 }

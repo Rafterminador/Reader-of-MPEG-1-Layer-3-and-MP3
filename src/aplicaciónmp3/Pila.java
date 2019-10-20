@@ -21,7 +21,6 @@ public class Pila {
     }
     
     public void insertar(String dato){
-        System.out.println("Me ejecuto");
         Elemento elemento = new Elemento(dato);
         if (tope == null){
             tope = elemento;

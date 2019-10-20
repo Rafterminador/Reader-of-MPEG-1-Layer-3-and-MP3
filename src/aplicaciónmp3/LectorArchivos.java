@@ -1,43 +1,27 @@
- 
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package aplicaciónmp3;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.io.File;
+
 /**
  *
  * @author ferna
  */
 public class LectorArchivos {
-    Pila canciones = new Pila();
-    public void listFile(String pathname) {
-        File f = new File(pathname);
-        File[] listfiles = f.listFiles();
-        for (int i = 0; i < listfiles.length; i++) {
-            if (listfiles[i].isDirectory()) {
-                File[] internalFile = listfiles[i].listFiles();
-                for (int j = 0; j < internalFile.length; j++) {
-//                    System.out.println(internalFile[j]);
-                    if (internalFile[j].getAbsolutePath().endsWith(".mp3") || internalFile[j].getAbsolutePath().endsWith(".MP3"))
-                    {
-                        canciones.insertar(internalFile[j].getAbsolutePath());
-                    }
-                    if (internalFile[j].isDirectory()) {
-                        String name = internalFile[j].getAbsolutePath();
-                        listFile(name);
-                    }
-
-                }
-            } else {//Para directorio padre y el de arriba para directorio hijo
-                String files = listfiles[i].getAbsolutePath();;
-                if (files.endsWith(".mp3") || files.endsWith(".MP3"))
-                {
-                    canciones.insertar(files);
-                }
-//                System.out.println(listfiles[i]);
-            }
-
+    private RandomAccessFile datos;
+    public boolean VerificarDatos() throws FileNotFoundException{
+        File Aux = new File("data.data");
+        boolean HayDatos = false;
+        if(Aux.length() > 0){//Va a leer si tiene al menos algun byte
+            HayDatos = true;
         }
-        canciones.mostrar();
-    } 
+        return HayDatos;
+    }
+    //datos = new RandomAccessFile("data.data", "rw");
 }
