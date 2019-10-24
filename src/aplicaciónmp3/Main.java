@@ -6,6 +6,7 @@
 package aplicaciónmp3;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -20,7 +21,7 @@ public class Main extends javax.swing.JFrame {
     /**
      * Creates new form Main
      */
-    public Main() throws FileNotFoundException {
+    public Main() throws FileNotFoundException, IOException {
         initComponents();
         setResizable(false);
         setLocationRelativeTo(null);
@@ -35,13 +36,20 @@ public class Main extends javax.swing.JFrame {
         }
     }
 
-    public void AgregarCarpetaMusica(){
+    public void AgregarCarpetaMusica() throws IOException{
         JFileChooser jf = new JFileChooser();
         jf.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY); 
         jf.showSaveDialog(null); 
         LectorCanciones algo = new LectorCanciones();
         algo.listFile(jf.getSelectedFile().getAbsolutePath());//Leo la carpeta que eligio
         algo.getCanciones().mostrar();
+        System.out.println("Algo" +jf.getSelectedFile().getAbsolutePath());
+        LectorArchivos lee = new LectorArchivos();
+        try {
+            lee.GetVersion(algo.getCanciones().tope().getvalor());
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     /**
@@ -125,6 +133,8 @@ public class Main extends javax.swing.JFrame {
                 try {
                     new Main().setVisible(true);
                 } catch (FileNotFoundException ex) {
+                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
                     Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
