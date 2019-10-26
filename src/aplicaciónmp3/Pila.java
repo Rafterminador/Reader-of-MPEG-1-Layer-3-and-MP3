@@ -44,11 +44,15 @@ public class Pila {
     
     public String eliminar(){
         String Adevolver;
-        Adevolver = tope.getvalor();
-        Elemento aux = tope;
-        tope = aux.getsiguiente();
-        aux.setsiguiente(null);
-        size --;
+        if(tope != null){
+            Adevolver = tope.getvalor();
+            Elemento aux = tope;
+            tope = aux.getsiguiente();
+            aux.setsiguiente(null);
+            size --;
+        }else{
+            Adevolver = "No hay datos";
+        }
         return Adevolver;
     }        
     

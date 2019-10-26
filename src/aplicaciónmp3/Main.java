@@ -40,16 +40,8 @@ public class Main extends javax.swing.JFrame {
         JFileChooser jf = new JFileChooser();
         jf.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY); 
         jf.showSaveDialog(null); 
-        LectorCanciones algo = new LectorCanciones();
-        algo.listFile(jf.getSelectedFile().getAbsolutePath());//Leo la carpeta que eligio
-        algo.getCanciones().mostrar();
-        System.out.println("Algo" +jf.getSelectedFile().getAbsolutePath());
-        LectorArchivos lee = new LectorArchivos();
-        try {
-            lee.GetVersion(algo.getCanciones().tope().getvalor());
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        LectorArchivos lee = new LectorArchivos(jf.getSelectedFile().getAbsolutePath());
+        lee.SaveInformation();
     }
     
     /**
