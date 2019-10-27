@@ -35,10 +35,11 @@ public class GuardarDatos {
         registro.writeShort(punteroAIndice);
 
         int contadorIndice = 0;
+        MP3 mp3 = listadoRegistros.getInicio();
+        MP3 aux = listadoRegistros.getInicio();
         for (int i = 1; i <= listadoRegistros.getSize(); i++) {//recorre la lista
-            MP3 mp3 = listadoRegistros.getInicio();
-            //indiceRegistros.get(contadorIndice).setPos((short) registro.getFilePointer());//getFilePointer obtiene la posicion en la que se va escribiendo                
 
+            //indiceRegistros.get(contadorIndice).setPos((short) registro.getFilePointer());//getFilePointer obtiene la posicion en la que se va escribiendo                
             registro.write(mp3.getId());
 
             registro.write(mp3.getNombre_cancion().length());
@@ -61,6 +62,10 @@ public class GuardarDatos {
 
             registro.write(mp3.getDireccion_pista().length());
             registro.writeChars(mp3.getDireccion_pista());
+            if (mp3.getSig() == null) {
+                break;
+            }
+            mp3 = mp3.getSig();
         }
         registro.close();
     }
