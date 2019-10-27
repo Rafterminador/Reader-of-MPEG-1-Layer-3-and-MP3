@@ -49,7 +49,7 @@ public class Lista {
 //        else{System.out.println("No hay elementos para mostrar");}
 //    }
     public void mostrar() {
-        MP3 cancion = this.inicio.getSig();
+        MP3 cancion = this.inicio;
         System.out.println("ID: " + cancion.getId());
         System.out.println("Nombre Cancion: " + cancion.getNombre_cancion());
         System.out.println("Nombre Artista: " + cancion.getNombre_artista());
