@@ -3,11 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/ferna/Desktop/AplicaciónMP3/src/aplicaciónmp3/Pila.java</file>
-            <file>file:/C:/Users/ferna/Desktop/AplicaciónMP3/src/aplicaciónmp3/LectorArchivos.java</file>
-            <file>file:/C:/Users/ferna/Desktop/AplicaciónMP3/src/aplicaciónmp3/LectorCanciones.java</file>
-            <file>file:/C:/Users/ferna/Desktop/AplicaciónMP3/src/aplicaciónmp3/Main.java</file>
-            <file>file:/C:/Users/ferna/Desktop/AplicaciónMP3/src/aplicaciónmp3/MP3.java</file>
+            <file>file:/C:/Users/ferna/Desktop/Reader-of-MPEG-1-Layer-3-and-MP3/src/aplicaciónmp3/Main.java</file>
+            <file>file:/C:/Users/ferna/Desktop/Reader-of-MPEG-1-Layer-3-and-MP3/src/aplicaciónmp3/MP3.java</file>
+            <file>file:/C:/Users/ferna/Desktop/Reader-of-MPEG-1-Layer-3-and-MP3/src/aplicaciónmp3/Lista.java</file>
+            <file>file:/C:/Users/ferna/Desktop/Reader-of-MPEG-1-Layer-3-and-MP3/src/aplicaciónmp3/LectorArchivos.java</file>
         </group>
     </open-files>
 </project-private>

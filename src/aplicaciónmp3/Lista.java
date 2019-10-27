@@ -51,14 +51,14 @@ public class Lista {
     public void mostrar() {
         MP3 cancion = this.inicio.getSig();
         System.out.println("ID: " + cancion.getId());
-        System.out.println("ID: " + cancion.getNombre_cancion());
-        System.out.println("ID: " + cancion.getNombre_artista());
-        System.out.println("ID: " + cancion.getNombre_album());
-        System.out.println("ID: " + cancion.getFecha_album());
-        System.out.println("ID: " + cancion.getGenero());
-        System.out.println("ID: " + cancion.getDuracion());
-        System.out.println("ID: " + cancion.getURL());
-        System.out.println("ID: " + cancion.getDireccion_pista());
+        System.out.println("Nombre Cancion: " + cancion.getNombre_cancion());
+        System.out.println("Nombre Artista: " + cancion.getNombre_artista());
+        System.out.println("Nombre Album: " + cancion.getNombre_album());
+        System.out.println("Fecha: " + cancion.getFecha_album());
+        System.out.println("Genero: " + cancion.getGenero());
+        System.out.println("Duración: " + cancion.getDuracion());
+        System.out.println("Url: " + cancion.getURL());
+        System.out.println("Dirección: " + cancion.getDireccion_pista());
     }
 
     public int getSize() {
