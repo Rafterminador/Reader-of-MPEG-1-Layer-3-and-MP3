@@ -35,31 +35,31 @@ public class Lista {
         return new_canc;
     }
 
-//    public void mostrar(){
-//        Elemento aux = inicio;
-//        if (inicio != null){
-//            for (int i = 0; i<=size; i++){
-//                System.out.println("Valor: "+ aux.getValor());
-//                if(aux.getSiguiente() == null){
-//                    break;
-//                }
-//                aux = aux.getSiguiente();
-//            }
-//        }
-//        else{System.out.println("No hay elementos para mostrar");}
-//    }
-    public void mostrar() {
-        MP3 cancion = this.inicio;
-        System.out.println("ID: " + cancion.getId());
-        System.out.println("Nombre Cancion: " + cancion.getNombre_cancion());
-        System.out.println("Nombre Artista: " + cancion.getNombre_artista());
-        System.out.println("Nombre Album: " + cancion.getNombre_album());
-        System.out.println("Fecha: " + cancion.getFecha_album());
-        System.out.println("Genero: " + cancion.getGenero());
-        System.out.println("Duración: " + cancion.getDuracion());
-        System.out.println("Url: " + cancion.getURL());
-        System.out.println("Dirección: " + cancion.getDireccion_pista());
+    public void mostrar(){
+        MP3 aux = inicio;
+        if (inicio != null){
+            for (int i = 0; i<=size; i++){
+                System.out.println("Cancion: "+ aux.getNombre_cancion());
+                if(aux.getSig() == null){
+                    break;
+                }
+                aux = aux.getSig();
+            }
+        }
+        else{System.out.println("No hay elementos para mostrar");}
     }
+//    public void mostrar() {
+//        MP3 cancion = this.inicio;
+//        System.out.println("ID: " + cancion.getId());
+//        System.out.println("Nombre Cancion: " + cancion.getNombre_cancion());
+//        System.out.println("Nombre Artista: " + cancion.getNombre_artista());
+//        System.out.println("Nombre Album: " + cancion.getNombre_album());
+//        System.out.println("Fecha: " + cancion.getFecha_album());
+//        System.out.println("Genero: " + cancion.getGenero());
+//        System.out.println("Duración: " + cancion.getDuracion());
+//        System.out.println("Url: " + cancion.getURL());
+//        System.out.println("Dirección: " + cancion.getDireccion_pista());
+//    }
 
     public MP3 Eliminar(){
         MP3 Adevolver;
