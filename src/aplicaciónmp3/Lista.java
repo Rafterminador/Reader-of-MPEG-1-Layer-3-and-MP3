@@ -61,6 +61,20 @@ public class Lista {
         System.out.println("Dirección: " + cancion.getDireccion_pista());
     }
 
+    public MP3 Eliminar(){
+        MP3 Adevolver;
+        if(this.inicio != null){
+            Adevolver = this.inicio;
+            MP3 aux = this.inicio;
+            this.inicio = aux.getSig();
+            aux.setSig(null);
+            size --;
+        }else{
+            Adevolver = null;
+        }
+        return Adevolver;
+    }
+    
     public int getSize() {
         return size;
     }

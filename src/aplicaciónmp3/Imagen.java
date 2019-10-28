@@ -18,7 +18,7 @@ public class Imagen extends javax.swing.JPanel {
     public void paint(Graphics grafico) {
         Dimension height = getSize();
         ImageIcon Img = new ImageIcon(getClass().getResource(Nombre)); 
-        grafico.drawImage(Img.getImage(), 0, 0, height.width, height.height, null);
+        grafico.drawImage(Img.getImage(), 10, 0, height.width, height.height, null);
         setOpaque(false);
         super.paintComponent(grafico);
     }
