@@ -46,21 +46,24 @@ public class Main extends javax.swing.JFrame {
         // cambia el color de la letra del encabezado de la tabla
         jTable1.getTableHeader().setForeground(Color.BLACK);
         modelo= new DefaultTableModel();
+        modelo.addColumn("Cancion");
         modelo.addColumn("Artista");
         modelo.addColumn("Album");
-        modelo.addColumn("Cancion");
         RandomAccessFile lectura = new RandomAccessFile("canciones.data", "rw");
-        //while(lectura.getFilePointer() != lectura.length()){
             short punteroIndice = lectura.readShort();
             lectura.seek(punteroIndice);
-            short posicionDatos = lectura.readShort();
-            byte longitud = lectura.readByte();
-            System.out.println("Long " + longitud);
-            byte[] caracteres = new byte[longitud*2];
-            lectura.read(caracteres);
-            String cancion = new String(caracteres);
-            modelo.addRow(new Object[]{cancion, "1", "2"});
-        //}
+            for(int i = 0; i < lectura.length(); i++){//Recorre el archivo para obtener los indices
+                short posicionDatos = lectura.readShort();
+                byte longitud = lectura.readByte();
+                byte[] caracteres = new byte[longitud*2];
+                lectura.read(caracteres);
+                String cancion = new String(caracteres);
+                modelo.addRow(new Object[]{cancion,this.getArtista(posicionDatos), this.getAlbum(posicionDatos)});
+                if(lectura.getFilePointer() == lectura.length()){//Rompe si llega al final del archivo
+                    break;
+                }
+            }
+
 //        for (int i = 0; i < tabla.getListaArreglo(); i++) {
 //            }
 //            
@@ -76,6 +79,30 @@ public class Main extends javax.swing.JFrame {
 //        tablita.getColumnModel().getColumn(1).setCellRenderer(color);
 //        ColorFila color2=new ColorFila(2);
 //        tablita.getColumnModel().getColumn(2).setCellRenderer(color2);
+    }
+    
+    public String getArtista(int posicion) throws IOException{
+        RandomAccessFile lectura = new RandomAccessFile("canciones.data", "rw");
+        lectura.seek(posicion);
+        byte longitud = lectura.readByte();
+        byte[] caracteres = new byte[longitud*2];
+        lectura.read(caracteres);
+        String cancion = new String(caracteres);
+        return cancion;
+    }
+    
+    public String getAlbum(int posicion) throws IOException{
+        RandomAccessFile lectura = new RandomAccessFile("canciones.data", "rw");
+        lectura.seek(posicion);
+        byte longitud = lectura.readByte();
+        byte[] caracteres = new byte[longitud*2];
+        lectura.read(caracteres);
+        String cancion = new String(caracteres);
+        byte longitud1 = lectura.readByte();
+        byte[] caracteres1 = new byte[longitud1*2];
+        lectura.read(caracteres1);
+        String cancion1 = new String(caracteres1);
+        return cancion1;
     }
     
     public void AgregarCarpetaMusica() throws IOException{
