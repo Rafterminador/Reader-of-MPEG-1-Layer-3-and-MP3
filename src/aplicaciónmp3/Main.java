@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -38,7 +39,7 @@ public class Main extends javax.swing.JFrame {
         this.getData();
     }
 
-    public void getData(){
+    public void getData() throws FileNotFoundException, IOException{
         jTable1.getTableHeader().setFont(new Font("Arial", 1, 13));
         // cambia el fondo del encabezado de la tabla
         jTable1.getTableHeader().setBackground(Color.WHITE);
@@ -48,7 +49,18 @@ public class Main extends javax.swing.JFrame {
         modelo.addColumn("Artista");
         modelo.addColumn("Album");
         modelo.addColumn("Cancion");
-        
+        RandomAccessFile lectura = new RandomAccessFile("canciones.data", "rw");
+        //while(lectura.getFilePointer() != lectura.length()){
+            short punteroIndice = lectura.readShort();
+            lectura.seek(punteroIndice);
+            short posicionDatos = lectura.readShort();
+            byte longitud = lectura.readByte();
+            System.out.println("Long " + longitud);
+            byte[] caracteres = new byte[longitud*2];
+            lectura.read(caracteres);
+            String cancion = new String(caracteres);
+            modelo.addRow(new Object[]{cancion, "1", "2"});
+        //}
 //        for (int i = 0; i < tabla.getListaArreglo(); i++) {
 //            }
 //            

@@ -7,11 +7,9 @@ package aplicaciónmp3;
 
 /**
  *
- * @author Kelvin Cano
+ * @author ferna
  */
-public class MP3 {
-    protected Byte id;
-    private String nombre_cancion;
+public class MP3 {   
     private String nombre_artista;
     private String nombre_album;
     private String fecha_album;
@@ -20,12 +18,9 @@ public class MP3 {
     private String URL;
     private String direccion_pista;
     private String direccion_letra;
-    private String bio;
     private MP3 sig;
 
-    public MP3(Byte id, String nombre_cancion, String nombre_artista, String nombre_album, String fecha_album, String genero, String duracion, String URL, String direccion_pista) {
-        this.id = id;
-        this.nombre_cancion = nombre_cancion;
+    public MP3(String nombre_artista, String nombre_album, String fecha_album, String genero, String duracion, String URL, String direccion_pista, String direccion_letra) {
         this.nombre_artista = nombre_artista;
         this.nombre_album = nombre_album;
         this.fecha_album = fecha_album;
@@ -33,25 +28,8 @@ public class MP3 {
         this.duracion = duracion;
         this.URL = URL;
         this.direccion_pista = direccion_pista;
-        this.direccion_letra = "";
-        this.bio = "";
+        this.direccion_letra = direccion_letra;
         this.sig = null;
-    }
-
-    public Byte getId() {
-        return id;
-    }
-
-    public void setId(Byte id) {
-        this.id = id;
-    }
-
-    public String getNombre_cancion() {
-        return nombre_cancion;
-    }
-
-    public void setNombre_cancion(String nombre_cancion) {
-        this.nombre_cancion = nombre_cancion;
     }
 
     public String getNombre_artista() {
@@ -118,19 +96,11 @@ public class MP3 {
         this.direccion_letra = direccion_letra;
     }
 
-    public String getBio() {
-        return bio;
-    }
-
-    public void setBio(String bio) {
-        this.bio = bio;
-    }
-
     public MP3 getSig() {
         return sig;
     }
 
     public void setSig(MP3 sig) {
         this.sig = sig;
-    }    
+    }
 }
