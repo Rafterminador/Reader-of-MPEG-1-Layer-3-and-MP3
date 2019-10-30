@@ -48,6 +48,7 @@ public class Main extends javax.swing.JFrame {
         modelo.addColumn("Artista");
         modelo.addColumn("Album");
         modelo.addColumn("Cancion");
+        
 //        for (int i = 0; i < tabla.getListaArreglo(); i++) {
 //            }
 //            

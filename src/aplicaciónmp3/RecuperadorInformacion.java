@@ -12,5 +12,10 @@ import java.io.RandomAccessFile;
  * @author ferna
  */
 public class RecuperadorInformacion {
-    
+    private String ruta = "canciones.data";
+    private Lista datos;
+    public void leer() throws FileNotFoundException{
+        RandomAccessFile lectura = new RandomAccessFile(ruta, "rw");
+        
+    }
 }
