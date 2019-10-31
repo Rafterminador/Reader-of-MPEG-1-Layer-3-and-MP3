@@ -19,7 +19,7 @@ public class MP3 {
     private String direccion_pista;
     private String direccion_letra;
     private MP3 sig;
-
+    
     public MP3(String nombre_artista, String nombre_album, String fecha_album, String genero, String duracion, String URL, String direccion_pista, String direccion_letra) {
         this.nombre_artista = nombre_artista;
         this.nombre_album = nombre_album;
