@@ -5,6 +5,7 @@
  */
 package aplicaciónmp3;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
@@ -20,7 +21,6 @@ public class GuardaRegistros {
     private ArrayList<IndiceNombre> indiceRegistros;
 
     public GuardaRegistros() {
-        this.nombreDeArchivo = "canciones.data";
         this.listadoRegistros = new ArrayList<>();
         this.indiceRegistros = new ArrayList<>();
     }
@@ -31,8 +31,9 @@ public class GuardaRegistros {
     }
     
     public void guardar() throws IOException{
-        try {
-            RandomAccessFile archivo = new RandomAccessFile(nombreDeArchivo, "rw");
+        new FileOutputStream("canciones.data").close();//Limpio el archivo antes de insertar
+        try {    
+            RandomAccessFile archivo = new RandomAccessFile("canciones.data", "rw");
             short punteroAIndice = 0;
             archivo.writeShort(punteroAIndice);
             int contadorIndice = 0;
