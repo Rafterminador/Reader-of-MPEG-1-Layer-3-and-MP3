@@ -8,6 +8,7 @@ package aplicaciónmp3;
 import java.awt.Color;
 import java.awt.Font;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ public class EditarDatos extends javax.swing.JFrame {
     /**
      * Creates new form jp
      */
+    private ArrayList<IndiceNombre> indiceRegistros;
     private String puntero;
     private ArrayList<MP3> listaEditar;
     public EditarDatos(String cancion) {
@@ -49,7 +51,7 @@ public class EditarDatos extends javax.swing.JFrame {
             lectura.read(caracteres);
             String cancion = new String(caracteres);
             punteroIndice = (short)lectura.getFilePointer();
-
+            
             lectura.seek(posicionDatos);                        
             byte longitud2 = lectura.readByte();
             byte[] caracteres2 = new byte[longitud2 * 2];
@@ -92,7 +94,7 @@ public class EditarDatos extends javax.swing.JFrame {
             String direccionLetra = new String(caracteres9);
             listaEditar.add(new MP3(artista, album, fecha, genero, duracion, URL, direccionCancion, direccionLetra));
             lectura.seek(punteroIndice);
-
+            
             if (lectura.getFilePointer() == lectura.length() || cancion.equals(puntero) == true){
                                                       //Detiene el puntero si encuentra la canción                                                  
                 break;
@@ -119,13 +121,16 @@ public class EditarDatos extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        nombreArtisa = new javax.swing.JTextField();
+        nombreArtista = new javax.swing.JTextField();
         sFecha = new javax.swing.JTextField();
         sGenero = new javax.swing.JTextField();
         sURL = new javax.swing.JTextField();
         bCargar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
+        jLabel7 = new javax.swing.JLabel();
+        direccionLetra = new javax.swing.JTextField();
+        jComboBox1 = new javax.swing.JComboBox<>();
         fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -139,14 +144,14 @@ public class EditarDatos extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 10, 60, 60));
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 10, 60, 60));
 
         jLabel1.setBackground(new java.awt.Color(51, 102, 255));
         jLabel1.setFont(new java.awt.Font("Berlin Sans FB Demi", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Letra");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 220, -1, -1));
-        getContentPane().add(nombreCancion, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 20, 350, -1));
+        getContentPane().add(nombreCancion, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 20, 350, -1));
 
         jLabel3.setBackground(new java.awt.Color(51, 102, 255));
         jLabel3.setFont(new java.awt.Font("Berlin Sans FB Demi", 1, 14)); // NOI18N
@@ -177,27 +182,43 @@ public class EditarDatos extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("URL");
         getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, -1, -1));
-        getContentPane().add(nombreArtisa, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 60, 350, -1));
-        getContentPane().add(sFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 100, 350, 30));
-        getContentPane().add(sGenero, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 140, 350, -1));
-        getContentPane().add(sURL, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 180, 350, -1));
+        getContentPane().add(nombreArtista, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 60, 350, -1));
+        getContentPane().add(sFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 100, 350, 30));
+        getContentPane().add(sGenero, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 140, 350, -1));
+        getContentPane().add(sURL, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 180, 350, -1));
 
-        bCargar.setText("Cargar");
+        bCargar.setText("Guardar Cambios");
         bCargar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bCargarActionPerformed(evt);
             }
         });
-        getContentPane().add(bCargar, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 90, -1, -1));
+        getContentPane().add(bCargar, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 240, -1, -1));
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 220, 350, -1));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 210, 350, -1));
+
+        jLabel7.setFont(new java.awt.Font("Berlin Sans FB Demi", 1, 14)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setText("Dirección letra");
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 320, -1, -1));
+        getContentPane().add(direccionLetra, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 320, 350, -1));
+
+        jComboBox1.setBackground(new java.awt.Color(255, 204, 0));
+        jComboBox1.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre Canción", "Nombre Artista", "Fecha", "Genero", "URL", "Direccion Letra" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 20, 150, -1));
 
         fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/ab626f8b84973cc04d1bbcbac5c10478.jpg"))); // NOI18N
-        getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 360));
+        getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 740, 360));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -208,14 +229,51 @@ public class EditarDatos extends javax.swing.JFrame {
 
     private void bCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCargarActionPerformed
         try {
-            getData();//Obtiene hasta el último dato que se dirigio
-            String a = listaEditar.get(listaEditar.size() - 1).getNombre_artista();
-            nombreArtisa.setText(a);
+            this.MostrarDatosEnFrame();
         } catch (IOException ex) {
             Logger.getLogger(EditarDatos.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_bCargarActionPerformed
 
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        System.out.println(jComboBox1.getSelectedIndex());//Jala posicion que el usuario a seleccionado
+        if(jComboBox1.getSelectedIndex() == 0){
+            nombreCancion.setEnabled(true);
+        }else if(jComboBox1.getSelectedIndex() == 1){
+            nombreArtista.setEnabled(true);
+        }else if(jComboBox1.getSelectedIndex() == 2){
+            sFecha.setEnabled(true);
+        }else if(jComboBox1.getSelectedIndex() == 3){
+            sGenero.setEnabled(true);
+        }else if(jComboBox1.getSelectedIndex() == 4){
+            sURL.setEnabled(true);
+        }else if(jComboBox1.getSelectedIndex() == 5){
+            direccionLetra.setEnabled(true);
+        }
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    public void MostrarDatosEnFrame() throws IOException{
+        this.getData();
+        nombreCancion.setEnabled(false);
+        nombreArtista.setEnabled(false);
+        sFecha.setEnabled(false);
+        sGenero.setEnabled(false);
+        sURL.setEnabled(false);
+        jTextArea1.setEnabled(false);
+        direccionLetra.setEnabled(false);
+        nombreCancion.setText(this.puntero);
+        nombreArtista.setText(listaEditar.get(listaEditar.size() - 1).getNombre_artista());
+        sFecha.setText(listaEditar.get(listaEditar.size() - 1).getFecha_album());
+        sGenero.setText(listaEditar.get(listaEditar.size() - 1).getGenero());
+        sURL.setText(listaEditar.get(listaEditar.size() - 1).getURL());
+        if(listaEditar.get(listaEditar.size() - 1).getDireccion_letra().equals("NI")){//Es porque hay direccion de letra
+            System.out.println("=");
+            FileReader reader = new FileReader(listaEditar.get(listaEditar.size() - 1).getDireccion_letra());
+            jTextArea1.read(reader, listaEditar.get(listaEditar.size() - 1).getDireccion_letra());
+        }else{
+        }
+        direccionLetra.setText(listaEditar.get(listaEditar.size() - 1).getDireccion_letra());
+    }
     /**
      * @param args the command line arguments
      */
@@ -223,17 +281,20 @@ public class EditarDatos extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bCargar;
+    private javax.swing.JTextField direccionLetra;
     private javax.swing.JLabel fondo;
     private javax.swing.JButton jButton1;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField nombreArtisa;
+    private javax.swing.JTextField nombreArtista;
     private javax.swing.JTextField nombreCancion;
     private javax.swing.JTextField sFecha;
     private javax.swing.JTextField sGenero;

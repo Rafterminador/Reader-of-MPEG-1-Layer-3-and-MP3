@@ -270,6 +270,11 @@ public class Main extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if(cancionAEditar.equals("") == false){
             EditarDatos datos = new EditarDatos(cancionAEditar);
+            try {
+                datos.MostrarDatosEnFrame();
+            } catch (IOException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
             datos.setVisible(true);
         }else{
             JOptionPane.showMessageDialog(null, "Seleccione en la tabla la canción a editar",
