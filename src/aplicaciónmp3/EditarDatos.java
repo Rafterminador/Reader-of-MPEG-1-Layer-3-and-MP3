@@ -24,11 +24,17 @@ public class EditarDatos extends javax.swing.JFrame {
     /**
      * Creates new form jp
      */
+    private String puntero;
     private ArrayList<MP3> listaEditar;
-    public EditarDatos() {
+    public EditarDatos(String cancion) {
         initComponents();
         this.setLocationRelativeTo(null);
         this.listaEditar = new ArrayList<MP3>();
+        puntero = cancion;
+    }
+
+    public ArrayList<MP3> getListaEditar() {
+        return listaEditar;
     }
     
     public void getData() throws FileNotFoundException, IOException {       
@@ -41,10 +47,10 @@ public class EditarDatos extends javax.swing.JFrame {
             byte longitud = lectura.readByte();
             byte[] caracteres = new byte[longitud * 2];
             lectura.read(caracteres);
-            String cancion = new String(caracteres);   
-            //nombreCancion.setText(cancion);
+            String cancion = new String(caracteres);
+            punteroIndice = (short)lectura.getFilePointer();
+
             lectura.seek(posicionDatos);                        
-            
             byte longitud2 = lectura.readByte();
             byte[] caracteres2 = new byte[longitud2 * 2];
             lectura.read(caracteres2);
@@ -68,21 +74,31 @@ public class EditarDatos extends javax.swing.JFrame {
             byte longitud6 = lectura.readByte();
             byte[] caracteres6 = new byte[longitud6 * 2];
             lectura.read(caracteres6);
-            //String duracion = new String(caracteres6); 
+            String duracion = new String(caracteres6); 
             
             byte longitud7 = lectura.readByte();
             byte[] caracteres7 = new byte[longitud7 * 2];
             lectura.read(caracteres7);
             String URL = new String(caracteres7); 
-                        
-            listaEditar.add(new MP3(artista, album, fecha, genero, "", URL, "", ""));
-            lectura.seek(punteroIndice);                        
-            if (lectura.getFilePointer() == lectura.length()) {//Rompe si llega al final del archivo
+            
+            byte longitud8 = lectura.readByte();
+            byte[] caracteres8 = new byte[longitud8 * 2];
+            lectura.read(caracteres8);
+            String direccionCancion = new String(caracteres8);
+            
+            byte longitud9 = lectura.readByte();
+            byte[] caracteres9 = new byte[longitud9 * 2];
+            lectura.read(caracteres9);
+            String direccionLetra = new String(caracteres9);
+            listaEditar.add(new MP3(artista, album, fecha, genero, duracion, URL, direccionCancion, direccionLetra));
+            lectura.seek(punteroIndice);
+
+            if (lectura.getFilePointer() == lectura.length() || cancion.equals(puntero) == true){
+                                                      //Detiene el puntero si encuentra la canción                                                  
                 break;
             }
         }
-        System.out.println(" " +listaEditar.get(0).getNombre_artista());
-        System.out.println(" " +listaEditar.size());
+        lectura.close();
         //listaEditar.get(0).getNombre_artista();
     }
     
@@ -108,6 +124,8 @@ public class EditarDatos extends javax.swing.JFrame {
         sGenero = new javax.swing.JTextField();
         sURL = new javax.swing.JTextField();
         bCargar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
         fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -172,6 +190,12 @@ public class EditarDatos extends javax.swing.JFrame {
         });
         getContentPane().add(bCargar, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 90, -1, -1));
 
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane1.setViewportView(jTextArea1);
+
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 220, 350, -1));
+
         fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/ab626f8b84973cc04d1bbcbac5c10478.jpg"))); // NOI18N
         getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 360));
 
@@ -184,8 +208,8 @@ public class EditarDatos extends javax.swing.JFrame {
 
     private void bCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCargarActionPerformed
         try {
-            getData();
-            String a = listaEditar.get(0).getNombre_artista();
+            getData();//Obtiene hasta el último dato que se dirigio
+            String a = listaEditar.get(listaEditar.size() - 1).getNombre_artista();
             nombreArtisa.setText(a);
         } catch (IOException ex) {
             Logger.getLogger(EditarDatos.class.getName()).log(Level.SEVERE, null, ex);
@@ -195,40 +219,7 @@ public class EditarDatos extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(EditarDatos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(EditarDatos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(EditarDatos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(EditarDatos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new EditarDatos().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bCargar;
@@ -240,6 +231,8 @@ public class EditarDatos extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField nombreArtisa;
     private javax.swing.JTextField nombreCancion;
     private javax.swing.JTextField sFecha;

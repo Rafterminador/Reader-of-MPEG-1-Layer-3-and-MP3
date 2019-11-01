@@ -10,6 +10,7 @@ import java.awt.Font;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -24,9 +25,9 @@ import javax.swing.table.DefaultTableModel;
  * @author ferna
  */
 public class Main extends javax.swing.JFrame {
-
+    private ArrayList<MP3> data;
     DefaultTableModel modelo;
-
+    private String cancionAEditar = "";
     /**
      * Creates new form Main
      */
@@ -176,7 +177,7 @@ public class Main extends javax.swing.JFrame {
         });
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Ver.jpg"))); // NOI18N
-        jButton1.setText("Ver");
+        jButton1.setText("Ver o Editar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -247,15 +248,33 @@ public class Main extends javax.swing.JFrame {
         //            int column = source.columnAtPoint( evt.getPoint() );
         //            String s=source.getModel().getValueAt(column, 1)+"";
         int index = jTable1.getSelectedRow();
-        String s = source.getModel().getValueAt(index, 0) + "  " + source.getModel().getValueAt(index, 1);//Jala el primer elemento seleccionado
-        //JOptionPane.showMessageDialog(null, s);
-        final ImageIcon icon = new ImageIcon("src/Imagenes/D.png");
-        //JOptionPane.showMessageDialog(null, s, "Información acerca de la canción", JOptionPane.INFORMATION_MESSAGE, icon);
+        String s = source.getModel().getValueAt(index, 0).toString();//jala el primero elemento seleccionado
+        this.cancionAEditar = s;
+        final ImageIcon icon = new ImageIcon("src/Imagenes/D.png");       
+        EditarDatos datos = new EditarDatos(s);
+        try {
+            datos.getData();
+            data = datos.getListaEditar();
+            s = "Canción: " + s + "\nAlbum: " + data.get(data.size() - 1).getNombre_album()
+            + "\nArtista: " + data.get(data.size() - 1).getNombre_artista()
+            + "\nFecha de álbum: " + data.get(data.size() - 1).getFecha_album()
+            + "\nGenero: " + data.get(data.size() - 1).getGenero()
+            + "\nDirección de la canción: " + data.get(data.size() - 1).getDireccion_pista()
+            + "\nSi desea ver todos los datos de la canción presione en el boton ver de abajo "; 
+            JOptionPane.showMessageDialog(null, s, "Información acerca de la canción", JOptionPane.INFORMATION_MESSAGE, icon);
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        EditarDatos datos = new EditarDatos();
-        datos.setVisible(true);
+        if(cancionAEditar.equals("") == false){
+            EditarDatos datos = new EditarDatos(cancionAEditar);
+            datos.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(null, "Seleccione en la tabla la canción a editar",
+                    "IPORTANTE", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
