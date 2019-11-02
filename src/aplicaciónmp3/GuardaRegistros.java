@@ -40,10 +40,9 @@ public class GuardaRegistros {
             for(MP3 cancion : listadoRegistros){try {//recorre el array
                 indiceRegistros.get(contadorIndice++).setPosicion((short)archivo.getFilePointer());//se incrementa despues de hacer esa linea
                 //archivo.getFilePointer(); //en que posicion está escribiendo
-                System.out.println(" pos " + archivo.getFilePointer());
                 archivo.write(cancion.getNombre_artista().length());//es un byte
                 archivo.writeChars(cancion.getNombre_artista());
-                System.out.println("Longtitud de " + cancion.getNombre_artista() + " E S " + cancion.getNombre_artista().length());
+                System.out.println("Longtitud de " + cancion.getNombre_artista() + " ES " + cancion.getNombre_artista().length());
                 archivo.write(cancion.getNombre_album().length());
                 archivo.writeChars(cancion.getNombre_album());
                 
@@ -61,7 +60,8 @@ public class GuardaRegistros {
                 
                 archivo.write(cancion.getDireccion_pista().length());
                 archivo.writeChars(cancion.getDireccion_pista());
-                
+                System.out.println(cancion.getDireccion_pista());
+                                System.out.println("LONG " + cancion.getDireccion_letra().length());
                 archivo.write(cancion.getDireccion_letra().length());
                 archivo.writeChars(cancion.getDireccion_letra());
                 } catch (IOException ex) {

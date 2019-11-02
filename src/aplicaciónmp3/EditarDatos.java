@@ -14,6 +14,7 @@ import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -28,6 +29,10 @@ public class EditarDatos extends javax.swing.JFrame {
     private ArrayList<IndiceNombre> indiceRegistros;
     private String puntero;
     private ArrayList<MP3> listaEditar;
+    private GuardaRegistros info = new GuardaRegistros();
+    private int posicionAModificar = 0;
+    private int op1, op2, op3, op4, op5, op6= 0;//Significa que todos la primera vez no estan para editar
+    
     public EditarDatos(String cancion) {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -50,6 +55,7 @@ public class EditarDatos extends javax.swing.JFrame {
             byte[] caracteres = new byte[longitud * 2];
             lectura.read(caracteres);
             String cancion = new String(caracteres);
+            System.out.println("cancion " + cancion);
             punteroIndice = (short)lectura.getFilePointer();
             
             lectura.seek(posicionDatos);                        
@@ -57,7 +63,7 @@ public class EditarDatos extends javax.swing.JFrame {
             byte[] caracteres2 = new byte[longitud2 * 2];
             lectura.read(caracteres2);
             String artista = new String(caracteres2);  
-            
+            System.out.println("artista " + artista);
             byte longitud3 = lectura.readByte();
             byte[] caracteres3 = new byte[longitud3 * 2];
             lectura.read(caracteres3);
@@ -82,9 +88,10 @@ public class EditarDatos extends javax.swing.JFrame {
             byte[] caracteres7 = new byte[longitud7 * 2];
             lectura.read(caracteres7);
             String URL = new String(caracteres7); 
-            
+            System.out.println("URl " + URL);
             byte longitud8 = lectura.readByte();
             byte[] caracteres8 = new byte[longitud8 * 2];
+            System.out.println("eS " + longitud8*2);
             lectura.read(caracteres8);
             String direccionCancion = new String(caracteres8);
             
@@ -96,7 +103,7 @@ public class EditarDatos extends javax.swing.JFrame {
             lectura.seek(punteroIndice);
             
             if (lectura.getFilePointer() == lectura.length() || cancion.equals(puntero) == true){
-                                                      //Detiene el puntero si encuentra la canción                                                  
+                posicionAModificar = i;                 //Detiene el puntero si encuentra la canción                                                  
                 break;
             }
         }
@@ -125,11 +132,11 @@ public class EditarDatos extends javax.swing.JFrame {
         sFecha = new javax.swing.JTextField();
         sGenero = new javax.swing.JTextField();
         sURL = new javax.swing.JTextField();
-        bCargar = new javax.swing.JButton();
+        Guardar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jLabel7 = new javax.swing.JLabel();
-        direccionLetra = new javax.swing.JTextField();
+        Letra = new javax.swing.JTextField();
         jComboBox1 = new javax.swing.JComboBox<>();
         fondo = new javax.swing.JLabel();
 
@@ -187,13 +194,13 @@ public class EditarDatos extends javax.swing.JFrame {
         getContentPane().add(sGenero, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 140, 350, -1));
         getContentPane().add(sURL, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 180, 350, -1));
 
-        bCargar.setText("Guardar Cambios");
-        bCargar.addActionListener(new java.awt.event.ActionListener() {
+        Guardar.setText("Guardar Cambios");
+        Guardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bCargarActionPerformed(evt);
+                GuardarActionPerformed(evt);
             }
         });
-        getContentPane().add(bCargar, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 240, -1, -1));
+        getContentPane().add(Guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 240, -1, -1));
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -205,7 +212,7 @@ public class EditarDatos extends javax.swing.JFrame {
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Dirección letra");
         getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 320, -1, -1));
-        getContentPane().add(direccionLetra, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 320, 350, -1));
+        getContentPane().add(Letra, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 320, 350, -1));
 
         jComboBox1.setBackground(new java.awt.Color(255, 204, 0));
         jComboBox1.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
@@ -227,28 +234,40 @@ public class EditarDatos extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void bCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCargarActionPerformed
+    private void GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarActionPerformed
+        
         try {
-            this.MostrarDatosEnFrame();
+            this.recrearDatos();
+            info.guardar();
+
+            JOptionPane.showMessageDialog(null, "No edita ya que al recuperar los datos no puedo generar una string"
+                    + "\n En formato UTF-8 y eso complica la lecturaaaaaaaaaa", 
+                    "Información acerca de la canción", JOptionPane.INFORMATION_MESSAGE);
         } catch (IOException ex) {
             Logger.getLogger(EditarDatos.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_bCargarActionPerformed
+    }//GEN-LAST:event_GuardarActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         System.out.println(jComboBox1.getSelectedIndex());//Jala posicion que el usuario a seleccionado
         if(jComboBox1.getSelectedIndex() == 0){
+            op1 = 1;
             nombreCancion.setEnabled(true);
         }else if(jComboBox1.getSelectedIndex() == 1){
+            op2 = 1;
             nombreArtista.setEnabled(true);
         }else if(jComboBox1.getSelectedIndex() == 2){
+            op3 = 1;
             sFecha.setEnabled(true);
         }else if(jComboBox1.getSelectedIndex() == 3){
+            op4 = 1;
             sGenero.setEnabled(true);
         }else if(jComboBox1.getSelectedIndex() == 4){
+            op5 = 1;
             sURL.setEnabled(true);
         }else if(jComboBox1.getSelectedIndex() == 5){
-            direccionLetra.setEnabled(true);
+            op6 = 1;
+            Letra.setEnabled(true);
         }
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
@@ -260,7 +279,7 @@ public class EditarDatos extends javax.swing.JFrame {
         sGenero.setEnabled(false);
         sURL.setEnabled(false);
         jTextArea1.setEnabled(false);
-        direccionLetra.setEnabled(false);
+        Letra.setEnabled(false);
         nombreCancion.setText(this.puntero);
         nombreArtista.setText(listaEditar.get(listaEditar.size() - 1).getNombre_artista());
         sFecha.setText(listaEditar.get(listaEditar.size() - 1).getFecha_album());
@@ -272,7 +291,89 @@ public class EditarDatos extends javax.swing.JFrame {
             jTextArea1.read(reader, listaEditar.get(listaEditar.size() - 1).getDireccion_letra());
         }else{
         }
-        direccionLetra.setText(listaEditar.get(listaEditar.size() - 1).getDireccion_letra());
+        Letra.setText(listaEditar.get(listaEditar.size() - 1).getDireccion_letra());
+    }
+    
+    public void recrearDatos() throws FileNotFoundException, IOException{
+        RandomAccessFile lectura = new RandomAccessFile("canciones.data", "rw");
+        short punteroIndice = lectura.readShort();
+        lectura.seek(punteroIndice);
+        for (int i = 0; i < lectura.length(); i++) {//Recorre el archivo para obtener los indices
+            short posicionDatos = lectura.readShort();
+            
+            byte longitud = lectura.readByte();
+            byte[] caracteres = new byte[longitud *2];
+            lectura.read(caracteres);
+            String cancion = new String(caracteres);
+            cancion = new String(cancion.getBytes("UTF-16"), "UTF-8");
+            punteroIndice = (short)lectura.getFilePointer();
+            System.out.println("cancion en utf " + cancion + cancion.length());
+            lectura.seek(posicionDatos);                        
+            byte longitud2 = lectura.readByte();
+            byte[] caracteres2 = new byte[longitud2 * 2];
+            lectura.read(caracteres2);
+            String artista = new String(caracteres2);  
+            
+            byte longitud3 = lectura.readByte();
+            byte[] caracteres3 = new byte[longitud3 * 2];
+            lectura.read(caracteres3);
+            String album = new String(caracteres3);  
+            
+            byte longitud4 = lectura.readByte();
+            byte[] caracteres4 = new byte[longitud4 * 2];
+            lectura.read(caracteres4);
+            String fecha = new String(caracteres4); 
+            
+            byte longitud5 = lectura.readByte();
+            byte[] caracteres5 = new byte[longitud5 * 2];
+            lectura.read(caracteres5);
+            String genero = new String(caracteres5); 
+            
+            byte longitud6 = lectura.readByte();
+            byte[] caracteres6 = new byte[longitud6 * 2];
+            lectura.read(caracteres6);
+            String duracion = new String(caracteres6); 
+            
+            byte longitud7 = lectura.readByte();
+            byte[] caracteres7 = new byte[longitud7 * 2];
+            lectura.read(caracteres7);
+            String URL = new String(caracteres7); 
+            
+            byte longitud8 = lectura.readByte();
+            byte[] caracteres8 = new byte[longitud8 * 2];
+            lectura.read(caracteres8);
+            String direccionCancion = new String(caracteres8);
+            byte longitud9 = lectura.readByte();
+            byte[] caracteres9 = new byte[longitud9 * 2];
+            lectura.read(caracteres9);
+            String direccionLetra = new String(caracteres9);
+            if(i == posicionAModificar){
+                if(op1 == 1){//Esto para saber a quienes modificar
+                    cancion = nombreCancion.getText();
+                }else if(op2 == 1){
+                    artista = nombreArtista.getText();
+                }else if(op3 == 1){
+                    fecha = sFecha.getText();
+                }else if(op4 == 1){
+                    genero = sGenero.getText();
+                }else if(op5 == 1){
+                    URL = sURL.getText();
+                }else if(op6 == 1){
+                    direccionLetra = Letra.getText();
+                }
+                System.out.println("Direccion letra " + direccionLetra+ direccionLetra);
+                info.agregarCancion(new MP3(artista, album, fecha, genero, duracion,
+                    URL, direccionCancion, direccionLetra), cancion);
+            }else{
+                info.agregarCancion(new MP3(artista, album, fecha, genero, duracion,
+                    URL, direccionCancion, direccionLetra), cancion);
+            }
+            lectura.seek(punteroIndice);
+            if (lectura.getFilePointer() == lectura.length()){                                                 
+                break;
+            }
+        }
+        lectura.close();
     }
     /**
      * @param args the command line arguments
@@ -280,8 +381,8 @@ public class EditarDatos extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton bCargar;
-    private javax.swing.JTextField direccionLetra;
+    private javax.swing.JButton Guardar;
+    private javax.swing.JTextField Letra;
     private javax.swing.JLabel fondo;
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox1;

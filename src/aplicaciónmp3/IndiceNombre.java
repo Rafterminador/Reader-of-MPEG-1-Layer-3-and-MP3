@@ -14,7 +14,6 @@ public class IndiceNombre {
     private String NombreCancion;
 
     public IndiceNombre(short posicion, String nombre) {
-        System.out.println("Nombrea  guardar " + nombre + nombre.length());
         this.posicion = posicion;
         this.NombreCancion = nombre;
     }
